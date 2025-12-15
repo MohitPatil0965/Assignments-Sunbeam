@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login & Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700">
+    <div class="bg-white w-96 p-8 rounded-2xl shadow-2xl">
+        <div id="loginForm">
+            <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+            <input id="loginUsername" type="text" placeholder="Username" class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+            <input id="loginPassword" type="password" placeholder="Password" class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+            <button onclick="login()" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+                Login
+            </button>
+
+            <p class="text-center text-sm mt-4 text-indigo-600 cursor-pointer" onclick="showSignup()">
+                Don’t have an account? Sign up
+            </p>
+
+            <p id="loginMsg" class="text-center text-sm mt-2"></p>
+        </div>
+        <div id="signupForm" class="hidden">
+            <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
+            <input id="signupUsername" type="text" placeholder="Username" class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input id="signupPassword" type="password" placeholder="Password" class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <button onclick="signup()" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+                Sign Up
+            </button>
+            <p class="text-center text-sm mt-4 text-purple-600 cursor-pointer" onclick="showLogin()">
+                Already have an account? Login
+            </p>
+            <p id="signupMsg" class="text-center text-sm mt-2"></p>
+        </div>
+
+    </div>
+
+    <script>
+        function showSignup() {
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("signupForm").classList.remove("hidden");
+        }
+
+        function showLogin() {
+            document.getElementById("signupForm").classList.add("hidden");
+            document.getElementById("loginForm").classList.remove("hidden");
+        }
+
+        function signup() {
+            const user = document.getElementById("signupUsername").value;
+            const pass = document.getElementById("signupPassword").value;
+
+            if (user === "" || pass === "") {
+                signupMsg("All fields required", "red");
+                return;
+            }
+
+            localStorage.setItem(user, pass);
+            signupMsg("Signup successful!", "green");
+        }
+
+        function login() {
+            const user = document.getElementById("loginUsername").value;
+            const pass = document.getElementById("loginPassword").value;
+
+            const stored = localStorage.getItem(user);
+
+            if (stored && stored === pass) {
+                loginMsg("Login successful!", "green");
+            } else {
+                loginMsg("Invalid username or password", "red");
+            }
+        }
+
+        function loginMsg(msg, color) {
+            const el = document.getElementById("loginMsg");
+            el.innerText = msg;
+            el.style.color = color;
+        }
+
+        function signupMsg(msg, color) {
+            const el = document.getElementById("signupMsg");
+            el.innerText = msg;
+            el.style.color = color;
+        }
+    </script>
+
+</body>
+</html>
